@@ -9,7 +9,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "local": "start-test dev http-get://localhost:3000 cy:open",
-    "ui:tests": "start-test dev http-get://localhost:3000 cy:run",
+    "ui:tests": "start-test dev http-get://localhost:5000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run"
   },
