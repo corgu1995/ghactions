@@ -1,0 +1,67 @@
+name: main
+on: [push, pull_request]
+
+jobs:
+  # this job installs dependencies and builds the "dist" folder
+  install:
+    runs-on: ubuntu-20.04
+    steps:
+      # https://github.com/actions/checkout
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      # only install the dependencies using
+      # https://github.com/cypress-io/github-action
+      - name: Install 📦
+        uses: cypress-io/github-action@v2
+        with:
+          runTests: false
+
+      # will create the "dist" folder
+      - name: Build site 🏗
+        run: npm run build
+
+      - run: ls -la
+      - run: ls -la dist
+
+      # only pass the local folder "dist"
+      # TIP: we want to avoid uploading node_modules since it is SLOW
+      # https://glebbahmutov.com/blog/parallel-cypress-tests-gh-action/
+      - name: Save build folder 🆙
+        uses: actions/upload-artifact@v3
+        # https://github.com/actions/upload-artifact#upload-an-entire-directory
+        with:
+          name: built
+          if-no-files-found: error
+          # upload all files in the "dist" folder
+          path: dist
+
+  # this job runs after the install job builds the "dist" folder
+  # serves the "dist" folder and runs end-to-end Cypress tests
+  ui-tests:
+    runs-on: ubuntu-20.04
+    needs: install
+    steps:
+      # https://github.com/actions/checkout
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Download the built folders ⏬
+        # https://github.com/actions/download-artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: built
+          # download all files into "dist" folder
+          path: dist
+
+      - run: ls -la
+      - run: ls -la dist
+
+      # reinstall dependencies and run Cypress tests
+      - name: Cypress tests 🧪
+        uses: cypress-io/github-action@v2
+        with:
+          # start the local server
+          start: npm run ui:tests
+          wait-on: "http://localhost:5000"
+          config: "baseUrl=http://localhost:5000"

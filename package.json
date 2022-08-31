@@ -1,45 +1,35 @@
 {
-  "name": "cypress-react-component-example",
-  "description": "Cypress React component testing example running on CI using Cypress GitHub Action",
-  "version": "0.1.0",
+  "name": "cypress-gh-action-split-jobs",
+  "version": "1.0.0",
+  "description": "Example with separate install and test jobs using Cypress GitHub Action",
+  "main": "index.js",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "13.3.0",
-    "@testing-library/user-event": "^14.4.3",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^3.0.0"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "cypress run-ct",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "local": "start-test dev http-get://localhost:3000 cy:open",
+    "ui:tests": "start-test dev http-get://localhost:3000 cy:run",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahmutov/cypress-gh-action-split-jobs.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bahmutov/cypress-gh-action-split-jobs/issues"
+  },
+  "homepage": "https://github.com/bahmutov/cypress-gh-action-split-jobs#readme",
+  "dependencies": {
+    "reveal.js": "4.3.1",
+    "vite": "2.7.13"
   },
   "devDependencies": {
-    "@cypress/react": "5.12.5",
-    "@cypress/webpack-dev-server": "2.3.0",
-    "cypress": "10.7.0",
-    "webpack-dev-server": "4.10.1"
+    "cypress": "9.7.0",
+    "start-server-and-test": "1.14.0"
   }
 }
